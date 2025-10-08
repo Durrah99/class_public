@@ -6922,8 +6922,24 @@ int perturbations_total_stress_energy(
 	  alpha_prime = 0.;
 	  metric_euler = k2*y[ppw->pv->index_pt_phi] - 4.5*a2*ppw->rho_plus_p_shear;
 	}
-        ppw->S_fld = ppw->pvecback[pba->index_bg_rho_fld]*(1.+w_fld)*1.5*a2/k2/a_prime_over_a*
-          (ppw->rho_plus_p_theta/ppw->rho_plus_p_tot+k2*alpha);
+	
+            if (pba->has_ide_ds){
+                ppw->S_fld = (1.5*a/(k2*ppw->pvecback[pba->index_bg_H])*ppw->pvecback[pba->index_bg_rho_fld]*(1.+w_fld)*(ppw->rho_plus_p_theta/ppw->rho_plus_p_tot)+
+                4.5*ppw->pvecback[pba->index_bg_rho_fld]*(1.+w_fld)*(ppw->rho_plus_p_theta/ppw->rho_plus_p_tot)*((a*a*a)/(k*k*k*k))*ppw->pvecback[pba->index_bg_rho_cdm]*(pba->xi_ds)/s2sq -
+                3*((a*a*a)/(k2))*ppw->pvecback[pba->index_bg_rho_cdm]*(pba->xi_ds)/((1+4.5*a2/k2/s2sq*ppw->rho_plus_p_tot))*ppw->pvecback[pba->index_bg_H]*c_gamma_k_H_square*Gamma_fld/s2sq -
+                4.5*ppw->pvecback[pba->index_bg_rho_fld]*(1.+w_fld)*ppw->pvecback[pba->index_bg_rho_cdm]*((pba->xi_ds)/s2sq)*((a*a*a)/(k*k*k*k))*y[ppw->pv->index_pt_theta_cdm])/
+                (1+((3*ppw->pvecback[pba->index_bg_rho_cdm]*(pba->xi_ds)*(a2/(k2*s2sq))*ppw->pvecback[pba->index_bg_H])/(1+4.5*a2/k2/s2sq*ppw->rho_plus_p_tot))*(1-1/(1.+c_gamma_k_H_square))); 
+                 
+                
+                
+                //ppw->pvecback[pba->index_bg_rho_fld]*(1.+w_fld)*1.5*a2/k2/a_prime_over_a*
+                 // (ppw->rho_plus_p_theta/ppw->rho_plus_p_tot+k2*alpha)-(4.5*((a*a*a)/(k*k*k))*ppw->pvecback[pba->index_bg_rho_cdm]*(pba->xi_ds)*(ppw->rho_plus_p_theta/ppw->rho_plus_p_tot - y[ppw->pv->index_pt_theta_cdm])*ppw->pvecback[pba->index_bg_rho_fld]*(1.+w_fld));
+            }
+            else{   
+                ppw->S_fld = ppw->pvecback[pba->index_bg_rho_fld]*(1.+w_fld)*1.5*a2/k2/a_prime_over_a*
+                  (ppw->rho_plus_p_theta/ppw->rho_plus_p_tot+k2*alpha);
+            }   
+            
         // note that the last terms in the ratio do not include fld, that's correct, it's the whole point of the PPF scheme
 	/** We must now check the stiffenss criterion again and set Gamma_prime_fld accordingly. */
 	if (c_gamma_k_H_square > ppr->c_gamma_k_H_square_max){
