@@ -1,3 +1,11 @@
+
+This version of CLASS-DS includes the modification to the PPF approximation used in the code.
+
+For more information, see [Alessa, Durrah, and Pedro Carrilho. "Parameterized Post-Friedmann Formalism for the Dark Scattering Model."](https://journals.ed.ac.uk/esjs/article/download/10094/13025/37068)
+
+Please cite "Alessa, D., & Carrilho, P. Parameterized Post-Friedmann Formalism for the Dark Scattering Model." if you use this code in your work. Thank you!
+
+
 CLASS: Cosmic Linear Anisotropy Solving System  {#mainpage}
 ==============================================
 
